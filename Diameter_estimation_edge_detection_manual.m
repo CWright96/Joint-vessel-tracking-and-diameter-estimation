@@ -38,7 +38,7 @@ figure(2);plot(c);  %intensity vs index plot.
 %%length estimation
 RangeOfIntensities = range(c);
 [MinIntensity,MinIndex] = min(c);
-Threshold = RangeOfIntensities * .75;
+Threshold = RangeOfIntensities * .6;
 %find start of vessel
 for i=(MinIndex-1):-1:1
     if abs(c(i)- MinIntensity) >= Threshold

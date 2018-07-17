@@ -34,10 +34,10 @@ vessel_edge = [];
 
 %% select seed point and initial diameter
 
-[accurate_centerline, direction, Init_diameters] = select_seed_point(input_image);
+[accurate_centerline, direction, init_diameters] = select_seed_point(input_image);
 disp(accurate_centerline);
 disp(direction);
-disp(Init_diameters);
+disp(
 %% this part grnerate a 3D matrix that will used to generate kernel matrix without 'for' loop
 % for direction
 [a,b]=size(input);
