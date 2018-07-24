@@ -18,6 +18,7 @@ coords = [xs(:),ys(:)];                     %join then into one array
 I = rgb2gray(retinal_image);                %make RGB image into B&W for intesity calculation
 f = @(x) m*x + c;                           %stright line function
     
+
 figure(1); imshow(uint8(retinal_image))     %display the image
 
 

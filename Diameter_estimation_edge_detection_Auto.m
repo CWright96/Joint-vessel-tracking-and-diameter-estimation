@@ -1,5 +1,5 @@
 %%automatic normal based diameter estimation
-function[] = Diameter_estimation_edge_detection_Auto(accurate_centerline, input_image,init_length)
+%function[] = Diameter_estimation_edge_detection_Auto(accurate_centerline, input_image)
     
     figure(1); imshow(uint8(input_image));
     %Init_diameters = (ginput(2));  %get user to pick points
@@ -8,9 +8,9 @@ function[] = Diameter_estimation_edge_detection_Auto(accurate_centerline, input_
     y1 = accurate_centerline(1,2);
     y2 = accurate_centerline(2,2);
     coeffs = polyfit([x1,x2],[y1,y2],1);    %cooficients for plotting straight line
-    m=coeffs(1);
+    m=-1/coeffs(1);
     c=coeffs(2);
-    Length = init_length;  %length of line between the 2 points
+    Length = (sqrt((x2-x1)^2+(y2-y1)^2));  %length of line between the 2 points
     xs = linspace(x1, x2, Length+2);            %x coords of said line
     ys = linspace(y1, y2, Length+2);            %y coords of said line
     coords = [xs(:),ys(:)];                     %join then into one array
@@ -65,7 +65,7 @@ function[] = Diameter_estimation_edge_detection_Auto(accurate_centerline, input_
     end
 
     disp(DiamterOfVessel);
-end
+%end
 
 
 

@@ -9,6 +9,7 @@ Init_diameters = ginput(2);
 figure(1); imshow(uint8(input_image))
 hold on
 figure(1);plot(accurate_centerline(:,1),accurate_centerline(:,2),'ro')
+figure(1);plot(Init_diameters(:,1),Init_diameters(:,2),'.');
 drawnow
 
 dir = atand((-accurate_centerline(2,2)+ accurate_centerline(1,2))/...
