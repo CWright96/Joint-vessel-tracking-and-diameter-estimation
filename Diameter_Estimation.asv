@@ -28,18 +28,11 @@ function[] = Diameter_Estimation(accurate_centerline, input_image)
             ys_opp = (Grad_normal*(xs_opp-x1)) + y1;    %descending y values
             coords = ([xs(:),ys(:)]);   %ascending x and y values
             coords_opp = [xs_opp(:),ys_opp(:)]; %descending x and y values
-             xsToFill = [0 1 2 3 4 5]; %arbituary values used to find the x and y coordinates of a the normal line
-            xsToFill = xsToFill *.5; %reduce the length of the normal
-            xs = (xsToFill)+x1;      %x coordinates of the normal
-            ys = (Grad_normal*(xs-x1)) + y1;   %y coordinates of the normal           
-            xs_opp = (-1*xsToFill)+x1;  %descending x values
-            ys_opp = (Grad_normal*(xs_opp-x1)) + y1;    %descending y values
-            coords = ([xs(:),ys(:)]);   %ascending x and y values
-            coords_opp = [xs_opp(:),ys_opp(:)]; %descending x and y values
+
             
-            pos1_norm = [coords(6,1),coords(6,2)];
-            pos2_norm = [coords_opp(6,1),coords_opp(6,2)];
-            figure(1);
+            pos1_norm = [coords(length(xsToFill),1),coords(length(xsToFill),2)];
+            pos2_norm = [coords_opp(length(xsToFill),1),coords_opp(length(xsToFill),2)];
+            figure(1);imshow(uint8(input_image)); 
             hold on
             scatter(pos1_norm(1),pos1_norm(2),'b.')
             hold on
@@ -52,43 +45,46 @@ function[] = Diameter_Estimation(accurate_centerline, input_image)
             c = improfile(I,coords_norm(:,1),coords_norm(:,2)); %array of intensities
             
             drawnow
-    figure(2);plot(c);  %intensity vs index plot.
+            figure(2);plot(c);  %intensity vs index plot.
 
-    %%length estimation
-    RangeOfIntensities = range(c);
-    [MinIntensity,MinIndex] = min(c);
-    Threshold = RangeOfIntensities * .6;
-    %find start of vessel
-    for i=(MinIndex-1):-1:1
-        if abs(c(i)- MinIntensity) >= Threshold
-            disp(i);
-            StartOfVessel = i;
-            break;
-        end    
-    end
-    %find end of vessel
-    for i = (MinIndex+1):1:length(c)
-           if abs((c(i)- MinIntensity)) >= Threshold
-            EndOfVessel = i;
-            break;
-           end
-    end
-
-    pos1 = [coords(StartOfVessel,1),coords(StartOfVessel,2)];
-    pos2 = [coords(EndOfVessel,1),coords(EndOfVessel,2)];
-
-    DiamterOfVessel = (sqrt((pos2(1)-pos1(1))^2+(pos2(2)-pos1(2))^2));
-    if pos1(1)<pos2(1)    
-        figure(1);fplot(f,[pos1(1),pos2(1)],'b')
-    elseif pos2(1)<pos1(1)
-        figure(1);fplot(f,[pos2(1),pos1(1)],'b')
-    end
-
-
-    disp(DiamterOfVessel);
-            else
-                %disp(accurate_centerline(i,:));
+            %%length estimation
+            MeanOfIntensities = mean(c);
+            SDofIntensities = std(c);
+            [MinIntensity,MinIndex] = min(c);
+            Threshold = MeanOfIntensities + 2*SDofIntensities;
+            %find start of vessel
+            for j=(MinIndex-1):-1:1
+                if abs(c(j))>= Threshold
+                    disp(j);
+                    StartOfVessel = j;
+                    break;
+                end    
             end
+            %find end of vessel
+            for k = (MinIndex+1):1:length(c)
+                   if abs(c(k))>= Threshold
+                    EndOfVessel = k;
+                    disp(EndOfVessel);
+                    break;
+                   end
+            end
+            
+            xs_intensity = linspace(pos1_norm(1), pos2_norm(1), length(c));           %x coords of intensity line
+            ys_intensity = linspace(pos1_norm(2), pos2_norm(2), length(c));           %y coords of intensity line
+            coords_intensity = [xs_intensity(:),ys_intensity(:)];           %coordinates of the intensity line
+            pos1 = [coords_intensity(StartOfVessel,1),coords_intensity(StartOfVessel,2)];
+            pos2 = [coords_intensity(EndOfVessel,1),coords_intensity(EndOfVessel,2)];
+
+            DiamterOfVessel = (sqrt((pos2(1)-pos1(1))^2+(pos2(2)-pos1(2))^2));
+            figure(1);
+            hold on
+            plot([pos1(1) pos2(1)],[pos1(2),pos2(2)],'r');
+
+
+            disp(DiamterOfVessel);
+        else
+            %disp(accurate_centerline(i,:));
+        end
     end
 
     

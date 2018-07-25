@@ -41,17 +41,17 @@ RangeOfIntensities = range(c);
 [MinIntensity,MinIndex] = min(c);
 Threshold = RangeOfIntensities * .6;
 %find start of vessel
-for i=(MinIndex-1):-1:1
-    if abs(c(i)- MinIntensity) >= Threshold
-        disp(i);
-        StartOfVessel = i;
+for j=(MinIndex-1):-1:1
+    if abs(c(j)- MinIntensity) >= Threshold
+        disp(j);
+        StartOfVessel = j;
         break;
     end    
 end
 %find end of vessel
-for i = (MinIndex+1):1:length(c)
-       if abs((c(i)- MinIntensity)) >= Threshold
-        EndOfVessel = i;
+for k = (MinIndex+1):1:length(c)
+       if abs((c(k)- MinIntensity)) >= Threshold
+        EndOfVessel = k;
         break;
        end
 end
