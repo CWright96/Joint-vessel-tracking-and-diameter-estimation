@@ -1,8 +1,8 @@
 %%select starting widths
 [FileName,PathName] = uigetfile({'*.tif';'*.ppm';'*.png';'*.tiff';'*.jpg'},'Select image');
-retinal_image = imread([PathName FileName]);
+%retinal_image = imread([PathName FileName]);
 
-figure(1); imshow(uint8(retinal_image));
+figure(1); imshow(uint8(input_image));
 Init_diameters = (ginput(2));  %get user to pick points
 x1 = Init_diameters(1,1);           %get coordinates for the line
 x2 = Init_diameters(2,1);
@@ -15,11 +15,11 @@ Length = (sqrt((x2-x1)^2+(y2-y1)^2));  %length of line between the 2 points
 xs = linspace(x1, x2, Length+2);            %x coords of said line
 ys = linspace(y1, y2, Length+2);            %y coords of said line
 coords = [xs(:),ys(:)];                     %join then into one array
-I = rgb2gray(retinal_image);                %make RGB image into B&W for intesity calculation
+I = rgb2gray(input_image);                %make RGB image into B&W for intesity calculation
 f = @(x) m*x + c;                           %stright line function
     
 
-figure(1); imshow(uint8(retinal_image))     %display the image
+figure(1); imshow(uint8(input_image))     %display the image
 
 
 hold on

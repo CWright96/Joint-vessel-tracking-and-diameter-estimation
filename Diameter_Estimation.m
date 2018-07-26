@@ -1,12 +1,19 @@
 %%Diameter Estimation
 
 
-function[] = Diameter_Estimation(accurate_centerline, input_image)
+function [diametersx, diametersy, diameterslength] = Diameter_Estimation(accurate_centerline, input_image)
 disp(accurate_centerline);
 imshow(uint8(input_image));
+diametersx = zeros(length(accurate_centerline),2);
+diametersy = zeros(length(accurate_centerline),2);
+diameterslength = zeros(length(accurate_centerline),1);
+
+input_image = rgb2gray(input_image);
+
 
 for i = 1:length(accurate_centerline)
     if i ~= length(accurate_centerline)
+        disp(i);
         %disp(accurate_centerline(i,:));
         pos1 = accurate_centerline(i,:);
         x1 = pos1(1);
@@ -20,8 +27,8 @@ for i = 1:length(accurate_centerline)
         %c=coeffs(2);   %not required
         Grad_normal = -1/m;     %gradient of normal line
         
-        xsToFill = [0 1 2 3 4 5]; %arbituary values used to find the x and y coordinates of a the normal line
-        xsToFill = xsToFill *.5; %reduce the length of the normal
+        xsToFill = 0:.5:2; %arbituary values used to find the x and y coordinates of a the normal line
+        xsToFill = xsToFill *.75; %reduce the length of the normal
         xs = (xsToFill)+x1;      %x coordinates of the normal
         ys = (Grad_normal*(xs-x1)) + y1;   %y coordinates of the normal
         xs_opp = (-1*xsToFill)+x1;  %descending x values
@@ -33,20 +40,21 @@ for i = 1:length(accurate_centerline)
         pos1_norm = [coords(length(xsToFill),1),coords(length(xsToFill),2)];
         pos2_norm = [coords_opp(length(xsToFill),1),coords_opp(length(xsToFill),2)];
         figure(1);imshow(uint8(input_image));
-        hold on
-        scatter(pos1_norm(1),pos1_norm(2),'b.')
-        hold on
-        scatter(pos2_norm(1),pos2_norm(2),'b.')
-        hold on
-        plot([pos1(1) pos2(1)],[pos1(2),pos2(2)],'b')
+        hold on;
+        scatter(pos1_norm(1),pos1_norm(2),'b.');
+        hold on;
+        scatter(pos2_norm(1),pos2_norm(2),'b.');
+        hold on;
+        plot([pos1(1) pos2(1)],[pos1(2),pos2(2)],'b');
         
         I = input_image;
         coords_norm = cat(1, coords_opp, coords);
-        c = improfile(I,coords_norm(:,1),coords_norm(:,2)); %array of intensities
+        c = improfile(I,coords(:,1),coords(:,2)); %array of intensities
+        c_opp = improfile(I,coords_opp(:,1),coords_opp(:,2)); %array of intensities
         
-        drawnow
+        drawnow;
         figure(2);plot(c);  %intensity vs index plot.
-        
+        figure(3);plot(c_opp);
         %         %%length estimation
         %         MeanOfIntensities = mean(c);
         %         SDofIntensities = std(c);
@@ -72,7 +80,7 @@ for i = 1:length(accurate_centerline)
         %%length estimation
         RangeOfIntensities = range(c);
         [MinIntensity,MinIndex] = min(c);
-        Threshold = RangeOfIntensities * .6;
+        Threshold = RangeOfIntensities * .2;
         %find start of vessel
         for j=(MinIndex-1):-1:1
             if abs(c(j)- MinIntensity) >= Threshold
@@ -103,6 +111,11 @@ for i = 1:length(accurate_centerline)
         
         
         disp(DiamterOfVessel);
+        diametersx(i,:) = [pos1];
+        diametersy(i,:) = [pos2];
+        diameterslength(i,:) = DiamterOfVessel;
+        
+        
     else
         %disp(accurate_centerline(i,:));
     end

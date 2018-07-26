@@ -50,7 +50,7 @@ repeated_input = repmat(z1, a,1);
 
 clear input input_diameter z1 z2 target
 
-for j=1:100
+for j=1:50
     j
 %% New Direction Estimation
 % Parameter Estimation for Direction
