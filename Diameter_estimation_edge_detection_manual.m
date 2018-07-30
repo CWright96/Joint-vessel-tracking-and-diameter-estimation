@@ -1,6 +1,6 @@
 %%select starting widths
 [FileName,PathName] = uigetfile({'*.tif';'*.ppm';'*.png';'*.tiff';'*.jpg'},'Select image');
-%retinal_image = imread([PathName FileName]);
+input_image = imread([PathName FileName]);
 
 figure(1); imshow(uint8(input_image));
 Init_diameters = (ginput(2));  %get user to pick points

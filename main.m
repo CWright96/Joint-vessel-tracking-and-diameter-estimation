@@ -3,9 +3,9 @@
 % Masoud Elhami Asl
 % 25 February
 
-% clear all
-% close all
-% clc
+clear all
+close all
+clc
 
 %% read image and load training data
 load input.mat   
@@ -34,10 +34,10 @@ vessel_edge = [];
 
 %% select seed point and initial diameter
 
-[accurate_centerline, direction, Init_diameters] = select_seed_point(input_image);
+[accurate_centerline, direction] = select_seed_point(input_image);
 disp(accurate_centerline);
 disp(direction);
-disp(Init_diameters);
+
 %% this part grnerate a 3D matrix that will used to generate kernel matrix without 'for' loop
 % for direction
 [a,b]=size(input);
@@ -95,7 +95,7 @@ for j=1:50
     mx_xnew= kernel_kxsx' /kernel_matrix * direction_variation;
     direction_variation(end+1) = mx_xnew;
     direction(end+1) = direction(end) + direction_variation(end);
-    disp(direction);
+    %disp(direction);
 
 % Adapt Step size based on direction variation
     step_size = 2*(90-abs(mx_xnew))/90;
@@ -103,10 +103,15 @@ for j=1:50
 % Find New Centerline Based on New Direction
     accurate_centerline(end+1,1)= accurate_centerline(end,1) + (step_size*cosd(direction(end)));
     accurate_centerline(end,2)= accurate_centerline(end-1,2) - (step_size*sind(direction(end)));
-
+   
     clear norm_diff_input norm_diff_new_other z1 z2
 end
-    
-figure(1); imshow(uint8(retinal_image))
+%%Diameter estimation
+Estimation_output = Diameter_Estimation(accurate_centerline, input_image);
+Diameters_coordinates = Estimation_output(:,1:4);
+Diameters = Estimation_output(:,5);
+figure(1); imshow(uint8(retinal_image));
 hold on
-plot(accurate_centerline(:,1),accurate_centerline(:,2),'g.')
+plot(Diameters_coordinates(:,1),Diameters_coordinates(:,2),'r.');
+plot(Diameters_coordinates(:,3),Diameters_coordinates(:,4),'r.');
+plot(accurate_centerline(:,1),accurate_centerline(:,2),'g.');

@@ -1,15 +1,13 @@
 % This function plot input image and gives seed-points(2 seed-points)
 % require and give back centerlines position and their direction.
-function [accurate_centerline, direction, Init_diameters] = select_seed_point(input_image)
+function [accurate_centerline, direction] = select_seed_point(input_image)
 
 direction = [];
 figure(1); imshow(uint8(input_image))
 accurate_centerline = ginput(2);
-Init_diameters = ginput(2);
 figure(1); imshow(uint8(input_image))
 hold on
 figure(1);plot(accurate_centerline(:,1),accurate_centerline(:,2),'ro')
-figure(1);plot(Init_diameters(:,1),Init_diameters(:,2),'.');
 drawnow
 
 dir = atand((-accurate_centerline(2,2)+ accurate_centerline(1,2))/...
