@@ -18,11 +18,11 @@ direction_variation = target;
 
 % to get G kannel of retinal image:
 retinal_image = imread([PathName FileName]);
-input_image = 255-double(retinal_image(:,:,2));
+input_image = 255-double(retinal_image(:,:,1));
 
 % add noise to image
-% input_image = (imnoise(uint8(input_image),'gaussian',0,1));
-% input_image = double(input_image);
+%input_image = (imnoise(uint8(input_image),'gaussian',0,1));
+%input_image = double(input_image);
 
 %% initial parameter
 step_size = 1; % distance between each centerline points
@@ -112,6 +112,6 @@ Diameters_coordinates = Estimation_output(:,1:4);
 Diameters = Estimation_output(:,5);
 figure(1); imshow(uint8(retinal_image));
 hold on
-plot(Diameters_coordinates(:,1),Diameters_coordinates(:,2),'r.');
-plot(Diameters_coordinates(:,3),Diameters_coordinates(:,4),'r.');
+plot(Diameters_coordinates(:,1),Diameters_coordinates(:,2),'y.');
+plot(Diameters_coordinates(:,3),Diameters_coordinates(:,4),'y.');
 plot(accurate_centerline(:,1),accurate_centerline(:,2),'g.');
