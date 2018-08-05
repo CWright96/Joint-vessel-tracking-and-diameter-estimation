@@ -18,7 +18,7 @@ direction_variation = target;
 
 % to get G kannel of retinal image:
 retinal_image = imread([PathName FileName]);
-input_image = 255-double(retinal_image(:,:,2));
+input_image = 255-double(retinal_image(:,:,1));
 
 % add noise to image
 %input_image = (imnoise(uint8(input_image),'gaussian',0,1));
@@ -50,7 +50,7 @@ repeated_input = repmat(z1, a,1);
 
 clear input input_diameter z1 z2 target
 
-for j=1:25
+for j=1:50
     j
 %% New Direction Estimation
 % Parameter Estimation for Direction

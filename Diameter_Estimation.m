@@ -9,6 +9,8 @@
 %less than the background this information is used to find the edges of the
 %vessles using a thresholding method. The diameter is then measured using
 %basic gemetry finding the distance between two points in space.
+%Author: Chris Wright
+%Supervisor Dr Ali Gooya
 
 function [output] = Diameter_Estimation(accurate_centerline, input_image)
 
