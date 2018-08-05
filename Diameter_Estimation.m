@@ -113,8 +113,8 @@ for i = 1:length(accurate_centerline)-1
     [MinIntensity_opp,MinIndex_opp] = min(c_opp);
     %The threshold value is chosen by inspection of pixel intensities
     %across multiple images 60% gives the best results
-    Threshold = RangeOfIntensities * .6;
-    Threshold_opp = RangeOfIntensities_opp * .6;
+    Threshold = RangeOfIntensities * .9;
+    Threshold_opp = RangeOfIntensities_opp * .9;
     
     %find start of vessel
     StartOfVessel = 0;  %this is used to check that a start has been found

@@ -3,13 +3,13 @@
 % Masoud Elhami Asl
 % 25 February
 
-clear all
-close all
-clc
+clear all;
+close all;
+clc;
 
 %% read image and load training data
-load input.mat   
-load target.mat
+load input.mat;   
+load target.mat;
 direction_variation = target;
 [FileName,PathName] = uigetfile({'*.tif';'*.ppm';'*.png';'*.tiff';'*.jpg'},'Select image');
 
@@ -21,7 +21,7 @@ retinal_image = imread([PathName FileName]);
 input_image = 255-double(retinal_image(:,:,2));
 
 % add noise to image
-%input_image = (imnoise(uint8(input_image),'gaussian',0,1));
+%input_image = (imnoise(uint8(input_image),'gaussian',0,.5));
 %input_image = double(input_image);
 
 %% initial parameter
@@ -50,7 +50,7 @@ repeated_input = repmat(z1, a,1);
 
 clear input input_diameter z1 z2 target
 
-for j=1:25
+for j=1:50
     j
 %% New Direction Estimation
 % Parameter Estimation for Direction
@@ -112,6 +112,6 @@ Diameters_coordinates = Estimation_output(:,1:4);
 Diameters = Estimation_output(:,5);
 figure(1); imshow(uint8(retinal_image));
 hold on
-plot(Diameters_coordinates(:,1),Diameters_coordinates(:,2),'y.');
-plot(Diameters_coordinates(:,3),Diameters_coordinates(:,4),'y.');
+plot(Diameters_coordinates(:,1),Diameters_coordinates(:,2),'y*');
+plot(Diameters_coordinates(:,3),Diameters_coordinates(:,4),'y*');
 plot(accurate_centerline(:,1),accurate_centerline(:,2),'g.');
