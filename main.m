@@ -112,6 +112,6 @@ Diameters_coordinates = Estimation_output(:,1:4);
 Diameters = Estimation_output(:,5);
 figure(1); imshow(uint8(retinal_image));
 hold on
-plot(Diameters_coordinates(:,1),Diameters_coordinates(:,2),'y*');
-plot(Diameters_coordinates(:,3),Diameters_coordinates(:,4),'y*');
+plot(Diameters_coordinates(:,1),Diameters_coordinates(:,2),'y.');
+plot(Diameters_coordinates(:,3),Diameters_coordinates(:,4),'y.');
 plot(accurate_centerline(:,1),accurate_centerline(:,2),'g.');
