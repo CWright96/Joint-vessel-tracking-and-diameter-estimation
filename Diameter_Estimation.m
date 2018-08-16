@@ -85,24 +85,29 @@ for i = 1:length(accurate_centerline)-1
 
 %%uncomment this section if you wish to see the points drawn on the image every cycle
 %increases running time significantly
-%     figure(1);imshow(uint8(input_image));
-%     hold on;
-%     scatter(pos1_norm(1),pos1_norm(2),'r.');
-%     hold on;
-%     scatter(pos2_norm(1),pos2_norm(2),'b.');
-%     hold on;
-%     plot([pos1(1) pos2(1)],[pos1(2),pos2(2)],'b');
+    figure(1);imshow(uint8(input_image));
+    hold on;
+    scatter(pos1_norm(1),pos1_norm(2),'r.');
+    hold on;
+    scatter(pos2_norm(1),pos2_norm(2),'b.');
+    hold on;
+    plot([pos1(1) pos2(1)],[pos1(2),pos2(2)],'b');
     
     %find intensities along the normal line
     I = input_image;
     c = improfile(I,coords(:,1),coords(:,2)); %array of intensities
     c_opp = improfile(I,coords_opp(:,1),coords_opp(:,2)); %array of intensities
     
-%   uncomment this section if you wish to see the intensity profiles
-%     drawnow;
-%     figure(2);plot(c);  %intensity vs index plot.
-%     figure(3);plot(c_opp);
-
+% %   uncomment this section if you wish to see the intensity profiles
+    drawnow;
+    figure(2);plot(c);  %intensity vs index plot.
+    title({'Graph of pixel intensities over a line between', 'the centreline point and the generated point above the centreline'},'fontsize',24)
+    xlabel('Pixel index','fontsize',24) % x-axis label
+    ylabel('Intensity values','fontsize',24) % y-axis label
+    figure(3);plot(c_opp);
+    title({'Graph of pixel intensities over a line between', 'the centreline point and the generated point below the centreline'},'fontsize',24)
+    xlabel('Pixel index','fontsize',24) % x-axis label
+    ylabel('Intensity values','fontsize',24) % y-axis label
     %%length estimation
     %First the range of values over the intensity profile is found
     RangeOfIntensities = range(c);          

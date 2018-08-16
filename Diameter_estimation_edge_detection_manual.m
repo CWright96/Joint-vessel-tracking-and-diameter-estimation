@@ -35,15 +35,19 @@ end
 c = improfile(I,coords(:,1),coords(:,2)); %array of intensities
 drawnow
 figure(2);plot(c);  %intensity vs index plot.
+title({'Graph of pixel intensities over a line', 'between the two manually selected points'},'fontsize',24)
+xlabel('Pixel index','fontsize',24) % x-axis label
+ylabel('Intensity values','fontsize',24) % y-axis label
 
 %%length estimation
+%for i = 1:9
 RangeOfIntensities = range(c);
 [MinIntensity,MinIndex] = min(c);
 Threshold = RangeOfIntensities * .6;
 %find start of vessel
 for j=(MinIndex-1):-1:1
     if abs(c(j)- MinIntensity) >= Threshold
-        disp(j);
+        %disp(j);
         StartOfVessel = j;
         break;
     end    
@@ -66,8 +70,7 @@ elseif pos2(1)<pos1(1)
     figure(1);fplot(f,[pos2(1),pos1(1)],'b')
 end
 
-
+%disp(i);
 disp(DiamterOfVessel);
-
-
+%
 
