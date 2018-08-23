@@ -31,7 +31,7 @@ diameterslength = zeros(1);
 
 %greyscale the image if it isn't already in that colourspace
 if size(input_image,3)==3
-    input_image = rgb2gray(input_image);
+    	
 end
 
 %imshow(uint8(input_image));    %show the image if required
@@ -39,7 +39,7 @@ end
 %loops through the whole centrline array apart from the last value due to
 %alggorithm limitations
 for i = 1:length(accurate_centerline)-1
-    disp(i);    %index of accurate_centerline that is being calculated
+    %disp(i);    %index of accurate_centerline that is being calculated
     %disp(accurate_centerline(i,:));
     pos1 = accurate_centerline(i,:);    %first position of the centreline pair
     x1 = pos1(1);
@@ -68,7 +68,7 @@ for i = 1:length(accurate_centerline)-1
         ys_opp = pos1(2) - ysToFill;%cacluate the y values below pos1
     else    %non horizontal lines can be dealt with noramlly
         Grad_normal = -1/m;     %gradient of normal line
-        xsToFill = 0:.5:4; %arbituary values used to find the x and y coordinates of a the normal line
+        xsToFill = 0:.5:6; %arbituary values used to find the x and y coordinates of a the normal line
         xsToFill = xsToFill *.75; %reduce the length of the normal
         xs = (xsToFill)+x1;      %x coordinates of the normal
         ys = (Grad_normal*(xs-x1)) + y1;   %y coordinates of the normal
@@ -124,8 +124,8 @@ for i = 1:length(accurate_centerline)-1
     %is said that the index k is at the edge of the vessel.
     for j=(MinIndex+1):1:length(c)  
         if abs(c(j)- MinIntensity) >= Threshold
-            disp('StartOfVessel');
-            disp(j);
+%             disp('StartOfVessel');
+%             disp(j);
             StartOfVessel = j;
             break;
         end
@@ -136,8 +136,8 @@ for i = 1:length(accurate_centerline)-1
     for k = (MinIndex_opp+1):1:length(c_opp)
         if abs((c_opp(k)- MinIntensity_opp)) >= Threshold_opp
             EndOfVessel = k;
-            disp('EndOfVessel');
-            disp(k);
+%             disp('EndOfVessel');
+%             disp(k);
             break;
         end
     end
@@ -147,8 +147,8 @@ for i = 1:length(accurate_centerline)-1
     if StartOfVessel == 0
         for j=(MinIndex):-1:1
             if abs(c(j)- MinIntensity) >= Threshold
-                disp('StartOfVessel');
-                disp(j);
+%                 disp('StartOfVessel');
+%                 disp(j);
                 StartOfVessel = j;
                 break;
             end
@@ -159,8 +159,8 @@ for i = 1:length(accurate_centerline)-1
         for k = (MinIndex_opp):-1:1
             if abs((c_opp(k)- MinIntensity_opp)) >= Threshold_opp
                 EndOfVessel = k;
-                disp('EndOfVessel');
-                disp(k);
+%                 disp('EndOfVessel');
+%                 disp(k);
                 break;
             end
         end
@@ -196,7 +196,7 @@ for i = 1:length(accurate_centerline)-1
 %     
     
     %output creation
-    disp(DiamterOfVessel);
+    %disp(DiamterOfVessel);
     diameters1 = [pos1; diameters1];
     diameters2 = [pos2; diameters2];
     diameterslength = [DiamterOfVessel; diameterslength];
@@ -206,4 +206,7 @@ end
  
     output = [diameters1,diameters2,diameterslength];   %creating the output array
     output = output(1:end-1,:); %removing the 0s from the end of the output
+
 end
+
+

@@ -20,9 +20,11 @@ direction_variation = target;
 retinal_image = imread([PathName FileName]);
 input_image = 255-double(retinal_image(:,:,2));
 
+%input_image = imrotate(input_image,45);
+
 % add noise to image
-%input_image = (imnoise(uint8(input_image),'gaussian',0,.5));
-%input_image = double(input_image);
+input_image = (imnoise(uint8(input_image),'gaussian',0,.01));
+input_image = double(input_image);
 
 %% initial parameter
 step_size = 1; % distance between each centerline points
@@ -50,7 +52,7 @@ repeated_input = repmat(z1, a,1);
 
 clear input input_diameter z1 z2 target
 
-for j=1:50
+for j=1:50 
     j
 %% New Direction Estimation
 % Parameter Estimation for Direction
@@ -110,8 +112,8 @@ end
 Estimation_output = Diameter_Estimation(accurate_centerline, input_image);
 Diameters_coordinates = Estimation_output(:,1:4);
 Diameters = Estimation_output(:,5);
-figure(1); imshow(uint8(retinal_image));
+figure(1); imshow(uint8(input_image));
 hold on
-plot(Diameters_coordinates(:,1),Diameters_coordinates(:,2),'y.');
-plot(Diameters_coordinates(:,3),Diameters_coordinates(:,4),'y.');
+plot(Diameters_coordinates(:,1),Diameters_coordinates(:,2),'r-','linewidth', 2);
+plot(Diameters_coordinates(:,3),Diameters_coordinates(:,4),'r-','linewidth', 2);
 plot(accurate_centerline(:,1),accurate_centerline(:,2),'g.');
